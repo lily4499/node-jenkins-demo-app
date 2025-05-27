@@ -1,0 +1,19 @@
+{
+  "name": "node-jenkins-demo-app",
+  "version": "1.0.0",
+  "description": "Node.js app for Jenkins CI/CD demo",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest"
+  },
+  "author": "LiliTech",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.0.0"
+  }
+}
