@@ -10,6 +10,11 @@ pipeline {
   }
 
   stages {
+    stage('Checkout') {
+      steps {
+        git branch: 'main', url: 'https://github.com/lily4499/node-jenkins-demo-app.git'
+      }
+    } 
     stage('Install') {
       steps {
         sh 'npm install'
