@@ -16,7 +16,7 @@ pipeline {
       }
     } 
 
-    stage('Install & Build') {
+    stage('Install') {
       steps {
         sh 'npm install'
       }
