@@ -15,11 +15,10 @@ pipeline {
         git branch: 'main', url: 'https://github.com/lily4499/node-jenkins-demo-app.git'
       }
     } 
+
     stage('Install & Build') {
       steps {
-        sh '''
-          npm install
-        '''
+        sh 'npm install'
       }
     }
 
@@ -31,22 +30,15 @@ pipeline {
 
     stage('Run Sonarqube') {
       environment {
-          scannerHome = tool 'sonar-scan';
+        scannerHome = tool 'sonar-scan'
       }
       steps {
-          withSonarQubeEnv('MySonar') {
-              sh """
-                  ${scannerHome}/bin/sonar-scanner \
-                 // -Dsonar.projectKey=key-test
-              """
-            }
+        withSonarQubeEnv('MySonar') {
+          sh "${scannerHome}/bin/sonar-scanner"
         }
-    }
-    stage('Approval') {
-      steps {
-        input message: 'Approve deployment to production?'
       }
     }
+
     stage('Build Docker Image') {
       steps {
         sh 'docker build -t $IMAGE:${params.TAG} .'
@@ -62,6 +54,13 @@ pipeline {
       }
     }
 
+    stage('Approval') {
+      steps {
+        input message: 'Approve deployment to production?'
+      }
+    }
+
+    // Uncomment to deploy after approval
     // stage('Deploy to K8s') {
     //   steps {
     //     sh 'kubectl apply -f k8s/'
@@ -72,11 +71,7 @@ pipeline {
   post {
     always {
       cleanWs()
+      slackSend(channel: '#jenkins-notify', message: "Pipeline Result: ${currentBuild.result}")
     }
   }
-  post {
-  always {
-    slackSend(channel: '#jenkins-notify', message: "Pipeline Result: ${currentBuild.result}")
-  }
-}
 }
