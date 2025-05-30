@@ -15,9 +15,12 @@ pipeline {
         git branch: 'main', url: 'https://github.com/lily4499/node-jenkins-demo-app.git'
       }
     } 
-    stage('Install') {
+    stage('Install & Build') {
       steps {
-        sh 'npm install'
+        sh '''
+          npm install
+          npm run build
+        '''
       }
     }
 
@@ -56,11 +59,11 @@ pipeline {
       }
     }
 
-    stage('Deploy to K8s') {
-      steps {
-        sh 'kubectl apply -f k8s/'
-      }
-    }
+    // stage('Deploy to K8s') {
+    //   steps {
+    //     sh 'kubectl apply -f k8s/'
+    //   }
+    // }
   }
 
   post {
