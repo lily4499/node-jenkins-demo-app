@@ -19,7 +19,6 @@ pipeline {
       steps {
         sh '''
           npm install
-          npm run build
         '''
       }
     }
@@ -71,4 +70,9 @@ pipeline {
       cleanWs()
     }
   }
+  post {
+  always {
+    slackSend(channel: '#jenkins-notify', message: "Pipeline Result: ${currentBuild.result}")
+  }
+}
 }
