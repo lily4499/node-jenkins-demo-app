@@ -1,3 +1,5 @@
+@Library('jenkins-shared-libs') _
+ 
 pipeline {
   agent any
 
@@ -16,17 +18,11 @@ pipeline {
       }
     } 
 
-    stage('Install') {
-      steps {
-        sh 'npm install'
+    stage('Run') {
+        steps {
+          buildApp()
+        }
       }
-    }
-
-    stage('Test') {
-      steps {
-        sh 'npm test'
-      }
-    }
 
     stage('Run Sonarqube') {
       environment {
