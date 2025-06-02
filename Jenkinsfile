@@ -41,15 +41,15 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-        sh 'docker build -t $IMAGE:${params.TAG} .'
+        sh "docker build -t $IMAGE:${params.TAG} ."
       }
     }
 
     stage('Push Image') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'lily-docker-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-          sh 'echo $PASS | docker login -u $USER --password-stdin'
-          sh 'docker push $IMAGE:${params.TAG}'
+          sh "echo $PASS | docker login -u $USER --password-stdin"
+          sh "docker push $IMAGE:${params.TAG}"
         }
       }
     }
